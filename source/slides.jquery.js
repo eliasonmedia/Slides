@@ -1,10 +1,11 @@
 /*
 * Slides, A Slideshow Plugin for jQuery
+* URL: https://github.com/eliasonmedia/Slides/tree/SlidesJS-1
 * Intructions: http://slidesjs.com
 * By: Nathan Searles, http://nathansearles.com
 * Modified By: Eric Heikes, eric@goodsmiths.com
 * Version: 1.2
-* Updated: February 5th, 2013
+* Updated: May 16, 2013
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
