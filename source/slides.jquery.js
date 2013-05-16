@@ -2,6 +2,7 @@
 * Slides, A Slideshow Plugin for jQuery
 * Intructions: http://slidesjs.com
 * By: Nathan Searles, http://nathansearles.com
+* Modified By: Eric Heikes, eric@goodsmiths.com
 * Version: 1.2
 * Updated: February 5th, 2013
 *
@@ -265,6 +266,24 @@
         }
       }
 
+      // Resizes slides to fit.
+      // Fits to the width and rescales the height to keep the original ratio.
+      function resize() {
+        if (option.ratio === false) return;
+
+        // Calculate the new width and height.
+        width = elem.width();
+        height = width / option.ratio;
+
+        // Reset the height on the slides container
+        //   so that it fits within the page flow.
+        $('.' + option.container, elem).css({ height: height });
+
+        // Reset the slide sizes.
+        control.children().css({ height: height, width: width });
+        setCSS();
+      }
+
       // 2 or more slides required
       if (total < 2) {
         return;
@@ -305,16 +324,24 @@
         display: 'none'
        });
 
-      // set css for control div
-      control.css({
-        position: 'relative',
-        // size of control 3 x slide width
-        width: (width * 3),
-        // set height to slide height
-        height: height,
-        // center control to slide
-        left: -width
-      });
+      function setCSS() {
+        // set css for slides
+        control.children().css({
+          left: control.children().outerWidth()
+        });
+
+        // set css for control div
+        control.css({
+          position: 'relative',
+          // size of control 3 x slide width
+          width: (width * 3),
+          // set height to slide height
+          height: height,
+          // center control to slide
+          left: -width
+        });
+      }
+      resize(); // also calls setCSS()
 
       // show slides
       $('.' + option.container, elem).css({
@@ -481,6 +508,11 @@
         return false;
       });
 
+      // resize handling
+      $(window).resize(function() {
+        resize();
+      });
+
       if (option.play) {
         // set interval
         playInterval = setInterval(function() {
@@ -519,6 +551,7 @@
     autoHeight: false, // boolean, Set to true to auto adjust height
     autoHeightSpeed: 350, // number, Set auto height animation time in milliseconds
     bigTarget: false, // boolean, Set to true and the whole slide will link to next slide on click
+    ratio: false, // width-to-height ratio, Set to false to disable scaling (eric@goodsmiths.com)
     animationStart: function(){}, // Function called at the start of animation
     animationComplete: function(){}, // Function called at the completion of animation
     slidesLoaded: function() {} // Function is called when slides is fully loaded
